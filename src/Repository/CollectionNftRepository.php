@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Collection;
+use App\Entity\CollectionNft;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Collection>
+ * @extends ServiceEntityRepository<CollectionNft>
  *
- * @method Collection|null find($id, $lockMode = null, $lockVersion = null)
- * @method Collection|null findOneBy(array $criteria, array $orderBy = null)
- * @method Collection[]    findAll()
- * @method Collection[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CollectionNft|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CollectionNft|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CollectionNft[]    findAll()
+ * @method CollectionNft[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CollectionRepository extends ServiceEntityRepository
+class CollectionNftRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Collection::class);
+        parent::__construct($registry, CollectionNft::class);
     }
 
 //    /**
-//     * @return Collection[] Returns an array of Collection objects
+//     * @return CollectionNft[] Returns an array of CollectionNft objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class CollectionRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Collection
+//    public function findOneBySomeField($value): ?CollectionNft
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

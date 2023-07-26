@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -44,6 +46,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $phoneNumber = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Adress::class)]
+    private Collection $adresses;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Transaction::class)]
+    private Collection $transactions;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Nft::class)]
+    private Collection $nfts;
+
+    public function __construct()
+    {
+        $this->adresses = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
+        $this->nfts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -190,6 +208,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhoneNumber(string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Adress>
+     */
+    public function getAdresses(): Collection
+    {
+        return $this->adresses;
+    }
+
+    public function addAdress(Adress $adress): static
+    {
+        if (!$this->adresses->contains($adress)) {
+            $this->adresses->add($adress);
+            $adress->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdress(Adress $adress): static
+    {
+        if ($this->adresses->removeElement($adress)) {
+            // set the owning side to null (unless already changed)
+            if ($adress->getUser() === $this) {
+                $adress->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transaction>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): static
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getUser() === $this) {
+                $transaction->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Nft>
+     */
+    public function getNfts(): Collection
+    {
+        return $this->nfts;
+    }
+
+    public function addNft(Nft $nft): static
+    {
+        if (!$this->nfts->contains($nft)) {
+            $this->nfts->add($nft);
+            $nft->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNft(Nft $nft): static
+    {
+        if ($this->nfts->removeElement($nft)) {
+            // set the owning side to null (unless already changed)
+            if ($nft->getUser() === $this) {
+                $nft->setUser(null);
+            }
+        }
 
         return $this;
     }

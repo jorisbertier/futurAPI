@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
+use App\Repository\CollectionNftRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CategoryRepository::class)]
-class Category
+#[ORM\Entity(repositoryClass: CollectionNftRepository::class)]
+class CollectionNft
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,7 +18,7 @@ class Category
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
-    #[ORM\ManyToMany(targetEntity: Nft::class, mappedBy: 'categories')]
+    #[ORM\OneToMany(mappedBy: 'collection', targetEntity: Nft::class)]
     private Collection $nfts;
 
     public function __construct()
@@ -55,7 +55,7 @@ class Category
     {
         if (!$this->nfts->contains($nft)) {
             $this->nfts->add($nft);
-            $nft->addCategory($this);
+            $nft->setCollection($this);
         }
 
         return $this;
@@ -64,7 +64,10 @@ class Category
     public function removeNft(Nft $nft): static
     {
         if ($this->nfts->removeElement($nft)) {
-            $nft->removeCategory($this);
+            // set the owning side to null (unless already changed)
+            if ($nft->getCollection() === $this) {
+                $nft->setCollection(null);
+            }
         }
 
         return $this;

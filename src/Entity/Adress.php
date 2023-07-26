@@ -25,6 +25,9 @@ class Adress
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
+    #[ORM\ManyToOne(inversedBy: 'adresses')]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class Adress
     public function setCountry(string $country): static
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -20,6 +20,12 @@ class Transaction
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    private ?Nft $nft = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +51,30 @@ class Transaction
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getNft(): ?Nft
+    {
+        return $this->nft;
+    }
+
+    public function setNft(?Nft $nft): static
+    {
+        $this->nft = $nft;
 
         return $this;
     }
