@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CollectionNft{% endblock %}
+
+{% block body %}
+    <h1>CollectionNft</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ collection_nft.id }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ collection_nft.label }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_collection_nft_index') }}">back to list</a>
+
+    <a href="{{ path('app_collection_nft_edit', {'id': collection_nft.id}) }}">edit</a>
+
+    {{ include('collection_nft/_delete_form.html.twig') }}
+{% endblock %}

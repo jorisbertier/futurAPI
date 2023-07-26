@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit CollectionNft{% endblock %}
+
+{% block body %}
+    <h1>Edit CollectionNft</h1>
+
+    {{ include('collection_nft/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_collection_nft_index') }}">back to list</a>
+
+    {{ include('collection_nft/_delete_form.html.twig') }}
+{% endblock %}
