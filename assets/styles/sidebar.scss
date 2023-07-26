@@ -1,0 +1,175 @@
+
+h1 {
+    font-size: 45px !important;
+    margin-top: 15px;
+}
+
+h2 {
+    font-size: 1.4em !important;
+    color: #D9DAFF;
+}
+
+hr {
+    height: 2px !important;
+    color: black !important;
+}
+
+ul li span, ul li a{
+    color : white !important;
+}
+
+input {
+    width: auto;
+}
+
+small {
+    font-size: 16px !important;
+    font-weight: 400;
+    color: #D9DAFF;
+}
+
+span small {
+    color:#D9DAFF;
+}
+
+label, input {
+    color: #D9DAFF;
+    font-weight: 400;
+}
+
+ul li i {
+    margin-right: 10px;
+}
+
+ul li span:hover {
+    background-color: #5A3E51;
+    padding: 10px;
+    border-radius: 25px;
+    transition: 400ms;
+}
+
+.page {
+    display: flex;
+    flex-direction: row;
+    width: 80% !important;
+}
+
+.menuProfil {
+    margin-top: 100px;
+    
+}
+
+.menuProfil, .menuList {
+    color: #5A3E51;
+    font-size: 24px;
+}
+
+.menuProfilTitle {
+    margin-top: 15px !important;
+}
+
+
+.sidebar {
+    background-color: #100E0E;
+    width: auto;
+}
+
+.blocProfil {
+    background-color: #5A3E51;
+    border-radius: 25px;
+}
+
+
+.bloc1 {
+    margin-top: 96px ;
+}
+.bloc2 {
+    margin-top: 115px ;
+}
+
+.bloc2 .btn {
+    background-color: #100E0E;
+    color: #D9DAFF;
+    border-radius: 25px;
+    padding: 10px;
+}
+.consignePassword {
+    padding: 5px;
+    color: #D9DAFF;
+    background-color: #100E0E;
+    border-radius: 5px;
+    font-weight: 400;
+}
+
+@media screen and (max-width: 1200px) {
+    .page {
+        display: flex !important;
+        flex-direction: column !important;
+        width: auto;
+    }
+    input {
+        width : 400px !important;
+    }
+    .bloc1, .bloc2 {
+        width: 500px;
+    }
+
+
+}
+@media screen and (max-width: 900px) {
+    .menuList {
+        font-size: 17px;
+    }
+    input {
+        width : 300px !important;
+    }
+    .bloc1, .bloc2 {
+        width: 400px;
+    }
+}
+@media screen and (max-width: 767px) {
+    ul li span {
+        font-size: 12px;
+    }
+    ul li {
+        font-size: 12px;
+    }
+    .menuList {
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    ul li span {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    input {
+        width : 200px !important;
+    }
+    .bloc1, .bloc2 {
+        width: 280px;
+    }
+    .consignePassword {
+        width: 200px;
+    }
+    .sidebar i {
+        font-size: 20px;
+        margin-top: 65px;
+    }
+}
+
+@media screen and (max-width: 445px) {
+    input {
+        width : 130px !important;
+    }
+    .bloc1, .bloc2 {
+        width: 230px;
+        text-align: center;
+    }
+    .consignePassword {
+        width: 130px;
+    }
+}
