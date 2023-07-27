@@ -1,0 +1,147 @@
+{% if is_granted('ROLE_ADMIN') %}
+<section class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-xl-2 col-md-2 col-sm-2 sidebar">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100">
+
+                        <span class="d-none d-sm-inline menuProfil menuList">Administration</span>
+                        <hr>
+
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0  align-items-sm-start"
+                        id="menu">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Adress
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Create</a></li>
+                                <li><a class="dropdown-item" href="#">Show</a></li>
+                                <li><a class="dropdown-item" href="#">Edit</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Category
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Create</a></li>
+                                <li><a class="dropdown-item" href="#">Show</a></li>
+                                <li><a class="dropdown-item" href="#">Edit</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Collection
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Create</a></li>
+                                <li><a class="dropdown-item" href="#">Show</a></li>
+                                <li><a class="dropdown-item" href="#">Edit</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Eth
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Create</a></li>
+                                <li><a class="dropdown-item" href="#">Show</a></li>
+                                <li><a class="dropdown-item" href="#">Edit</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Nft
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Create</a></li>
+                                <li><a class="dropdown-item" href="#">Show</a></li>
+                                <li><a class="dropdown-item" href="#">Edit</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Transaction
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Create</a></li>
+                                <li><a class="dropdown-item" href="#">Show</a></li>
+                                <li><a class="dropdown-item" href="#">Edit</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                User
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Create</a></li>
+                                <li><a class="dropdown-item" href="#">Show</a></li>
+                                <li><a class="dropdown-item" href="#">Edit</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                            </ul>
+                        </li>
+        
+                        <span class="d-none d-sm-inline my-3 menuList">Liste</span>
+                        <li>
+                            <a href="#" class="nav-link px-0 align-middle">
+                                <i class="fa-regular fa-heart"></i><span class="ms-1 d-none d-sm-inline">Mes
+                                    favoris</span></a>
+                        </li>
+                        <span class="d-none d-sm-inline my-3 menuList">Compte</span>
+                        <li>
+                            <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
+                                <i class="fa-regular fa-user"></i><span
+                                    class="ms-1 d-none d-sm-inline">Profil</span></a>
+                        </li>
+                        <li>
+                            <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                <i class="fa-solid fa-gear"></i><span class="ms-1 d-none d-sm-inline">Paramètres</span>
+                            </a>
+                        </li>
+                        <li class="w-100">
+                            <a href="#" class="nav-link px-0 align-middle">
+                                <i class="fa-solid fa-power-off"></i> <span
+                                    class="ms-1 d-none d-sm-inline">Déconnexion</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <hr>
+                    <div class="dropdown pb-4">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle"
+                            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
+                                class="rounded-circle">
+                            <span class="d-none d-sm-inline mx-1">loser</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                            <li><a class="dropdown-item" href="#">New project...</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="page mx-auto" >
+            <div class="col-xl-8 py-3 mx-auto bloc1">
+            
+
+            {# <div class="col-xl-4 mx-auto bloc2">
+            </div> #}
+{% endif %}

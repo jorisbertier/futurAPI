@@ -6,14 +6,19 @@ use App\Entity\Nft;
 use App\Form\NftType;
 use App\Repository\NftRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 #[Route('/nft')]
 class NftController extends AbstractController
 {
+
+
     #[Route('/', name: 'app_nft_index', methods: ['GET'])]
     public function index(NftRepository $nftRepository): Response
     {
@@ -23,13 +28,36 @@ class NftController extends AbstractController
     }
 
     #[Route('/new', name: 'app_nft_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $nft = new Nft();
         $form = $this->createForm(NftType::class, $nft);
         $form->handleRequest($request);
 
+        //upload file
+        $uploadDirectory = $this->getParameter('upload_file');
+        
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form->get('filePath')->getData();
+
+            if($file) {
+                $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFileName);
+                $newFileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+            }
+
+            try{
+                $file->move(
+                    $this->getParameter('upload_file'),
+                    $newFileName
+                );
+                $nft->setFilePath($newFileName);
+            } catch (FileException $e){
+
+            }
+
             $entityManager->persist($nft);
             $entityManager->flush();
 

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Nft;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,12 +13,14 @@ class NftType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('filePath', FileType::class, [
+                'mapped' => false
+            ])
             ->add('dateCreation')
             ->add('dateDrop')
             ->add('price')
             ->add('title')
             ->add('description')
-            ->add('filePath')
             ->add('alt')
             ->add('user')
             ->add('categories')

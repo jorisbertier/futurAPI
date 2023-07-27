@@ -7,6 +7,7 @@
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            {{ encore_entry_link_tags('sidebar') }}
         {% endblock %}
 
         {% block javascripts %}
@@ -15,6 +16,8 @@
     </head>
     <body>
         {% include 'partials/nav.html.twig' %}
+        {% include 'partials/AdminPanelHeader.html.twig' %}
         {% block body %}{% endblock %}
+        {% include 'partials/AdminPanelFooter.html.twig' %}
     </body>
 </html>
