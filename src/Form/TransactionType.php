@@ -2,9 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Nft;
+use App\Entity\User;
 use App\Entity\Transaction;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TransactionType extends AbstractType
@@ -14,8 +17,16 @@ class TransactionType extends AbstractType
         $builder
             ->add('dateTransaction')
             ->add('description')
-            ->add('user')
-            ->add('nft')
+            ->add('user', EntityType::class, [
+                'class' => User::class,
+                'choice_label' => 'email',
+                'multiple' => true,
+            ])
+            ->add('nft', EntityType::class, [
+                'class' => Nft::class,
+                'choice_label' => 'title',
+                'multiple' => true,
+            ])
         ;
     }
 

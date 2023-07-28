@@ -16,10 +16,12 @@ hr {
     color: black !important;
 }
 
- ul li span,  ul li a{
+ul li span,  .nav-link{
     color : white !important;
 }
-
+.dropdown-menu li .dropdown-item {
+    color : black;
+}
 input {
     width: auto;
 }
@@ -102,6 +104,7 @@ ul li span:hover {
     border-radius: 5px;
     font-weight: 400;
 }
+
 }
 @media screen and (max-width: 1200px) {
     .page {

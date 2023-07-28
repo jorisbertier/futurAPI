@@ -304,6 +304,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString()
     {
-        return $this->firstName; // Remplacez "username" par la propriété pertinente à afficher
+        return $this->pseudo; // Remplacez "username" par la propriété pertinente à afficher
     }
 }

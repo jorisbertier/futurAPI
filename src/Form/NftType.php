@@ -2,11 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
+use App\Entity\CollectionNft;
 use App\Entity\Nft;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class NftType extends AbstractType
 {
@@ -23,8 +26,16 @@ class NftType extends AbstractType
             ->add('description')
             ->add('alt')
             ->add('user')
-            ->add('categories')
-            ->add('collection')
+            ->add('categories', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'label',
+                'multiple' => true,
+            ])
+            ->add('collection', EntityType::class, [
+                'class' => CollectionNft::class,
+                'choice_label' => 'title',
+                'multiple' => true,
+            ])
             ->add('eth')
         ;
     }
