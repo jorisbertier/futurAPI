@@ -8,5 +8,6 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
 import './styles/sidebar.scss';
+// import './styles/variable.scss';
 
 import 'bootstrap/dist/js/bootstrap';
