@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Nft;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Nft>
@@ -19,6 +20,15 @@ class NftRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Nft::class);
+    }
+    
+    public function getQbAll(): QueryBuilder
+    {
+        // SELECT * FROM media as m
+        //traitement de formulaire
+        // si jamais on a qqch
+            // ->on va update notre query
+        return $this->createQueryBuilder('n');
     }
 
 //    /**

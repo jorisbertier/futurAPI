@@ -19,7 +19,7 @@ class Nft
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateCreation = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateDrop = null;
 
     #[ORM\Column]
@@ -236,6 +236,13 @@ class Nft
         $this->eth = $eth;
 
         return $this;
+    }
+    
+    public function __toString(): string
+    {
+
+    return $this->getTitle();
+
     }
 
 }

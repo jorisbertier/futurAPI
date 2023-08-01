@@ -26,4 +26,5 @@ class EthType extends AbstractType
             'data_class' => Eth::class,
         ]);
     }
+    
 }

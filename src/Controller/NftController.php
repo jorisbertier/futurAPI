@@ -2,28 +2,67 @@
 
 namespace App\Controller;
 
+use DateTime;
+use DateTimeZone;
 use App\Entity\Nft;
 use App\Form\NftType;
+use App\Form\NftSearchType;
+use App\Entity\CollectionNft;
 use App\Repository\NftRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 #[Route('/nft')]
 class NftController extends AbstractController
 {
+    public function __construct(
+        private PaginatorInterface $paginator
+    ){
+
+    }
 
 
     #[Route('/', name: 'app_nft_index', methods: ['GET'])]
-    public function index(NftRepository $nftRepository): Response
+    public function index(NftRepository $nftRepository, Request $request): Response
     {
+        $qb = $nftRepository->getQbAll();
+
+        $form = $this->createForm(NftSearchType::class);
+        $form->handleRequest($request);   // écoute les globales
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if($data['nftTitle'] !== null) {
+                $qb->andwhere('n.title LIKE :title')
+                ->setParameter('title', '%'. $data['nftTitle'] .'%');
+            }
+            // if($data['userEmail'] !== null) {
+            //     $qb->innerJoin('m.user', 'u')
+            //     ->andWhere('u.email = :email')
+            //     ->setParameter('email', $data['userEmail']);
+            // }
+        }
+
+        $pagination = $this->paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1), // réxupérer le get
+            1                                  // nbr element par page
+        );
+
+        $nfts = $qb->getQuery()->getResult();
+
         return $this->render('nft/index.html.twig', [
-            'nfts' => $nftRepository->findAll(),
+            'nfts' => $nfts,
+            'form' => $form->createView(),
+            'page' => $pagination
         ]);
     }
 
@@ -31,6 +70,7 @@ class NftController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $nft = new Nft();
+
         $form = $this->createForm(NftType::class, $nft);
         $form->handleRequest($request);
 
@@ -58,6 +98,12 @@ class NftController extends AbstractController
 
             }
 
+            $timezoneParis = new DateTimeZone('Europe/Paris');
+            $dateTimeParis = new DateTime('now', $timezoneParis);
+            $collection = new CollectionNft(); // Erreur ici si vous avez utilisé une ArrayCollection au lieu de CollectionNft
+            $collection->addNft($nft);
+    
+            $nft->setDateCreation($dateTimeParis);
             $entityManager->persist($nft);
             $entityManager->flush();
 

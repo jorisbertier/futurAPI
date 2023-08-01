@@ -19,8 +19,6 @@ class NftType extends AbstractType
             ->add('filePath', FileType::class, [
                 'mapped' => false
             ])
-            ->add('dateCreation')
-            ->add('dateDrop')
             ->add('price')
             ->add('title')
             ->add('description')
@@ -33,10 +31,10 @@ class NftType extends AbstractType
             ])
             ->add('collection', EntityType::class, [
                 'class' => CollectionNft::class,
-                'choice_label' => 'title',
-                'multiple' => true,
+                'choice_label' => 'label',
+                'multiple' => false,
             ])
-            ->add('eth')
+            
         ;
     }
 
