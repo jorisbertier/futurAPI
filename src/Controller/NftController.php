@@ -44,25 +44,20 @@ class NftController extends AbstractController
                 $qb->andwhere('n.title LIKE :title')
                 ->setParameter('title', '%'. $data['nftTitle'] .'%');
             }
-            // if($data['userEmail'] !== null) {
-            //     $qb->innerJoin('m.user', 'u')
-            //     ->andWhere('u.email = :email')
-            //     ->setParameter('email', $data['userEmail']);
-            // }
         }
+
+        // $nfts = $qb->getQuery()->getResult();
 
         $pagination = $this->paginator->paginate(
             $qb,
             $request->query->getInt('page', 1), // réxupérer le get
-            1                                  // nbr element par page
+            10                                  // nbr element par page
         );
 
-        $nfts = $qb->getQuery()->getResult();
 
         return $this->render('nft/index.html.twig', [
-            'nfts' => $nfts,
+            'nfts' => $pagination,
             'form' => $form->createView(),
-            'page' => $pagination
         ]);
     }
 

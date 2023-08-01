@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Eth index{% endblock %}
+
+{% block body %}
+    <h1>Yo</h1>
+    <ul>
+    {% set eths = get_last_seven_eth() %}
+    {% for eth in eths %}
+    <li>{{ eth.currentPrice }}</li><br>
+    {{ eth.updateDate|date('Y-m-d H:i:s') }}
+    {% endfor %}
+    </ul>
+{% endblock %}

@@ -31,6 +31,15 @@ class NftRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('n');
     }
 
+    public function findLastFiveNft() {
+        return $this->createQueryBuilder('n')
+        ->orderBy('n.dateCreation', 'desc')
+        ->setMaxResults(5)
+        ->getQuery()
+        ->getResult();
+    }
+
+
 //    /**
 //     * @return Nft[] Returns an array of Nft objects
 //     */

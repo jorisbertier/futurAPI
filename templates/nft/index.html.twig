@@ -30,7 +30,7 @@
                 <td>{{ nft.id }}</td>
                 <td>{{ nft.dateCreation ? nft.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ nft.dateDrop ? nft.dateDrop|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ nft.price }}</td>
+                <td>{{ nft.price / 100 }}€</td>
                 <td>{{ nft.title }}</td>
                 <td>{{ nft.description }}</td>
                 <td>{{ nft.filePath }}</td>
@@ -47,9 +47,10 @@
         {% endfor %}
         </tbody>
     </table>
-        <div class="navigation">
-        {{ knp_pagination_render(page) }}
-    </div>
+        
+        {{ knp_pagination_render(nfts, '@KnpPaginator/Pagination/bootstrap_v5_pagination.html.twig') }}
+
+    
 
     <a href="{{ path('app_nft_new') }}">Create new</a>
 

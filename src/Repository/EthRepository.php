@@ -21,6 +21,14 @@ class EthRepository extends ServiceEntityRepository
         parent::__construct($registry, Eth::class);
     }
 
+    public function findLastSevenEth() {
+        return $this->createQueryBuilder('e')
+        ->orderBy('e.updateDate', 'desc')
+        ->setMaxResults(7)
+        ->getQuery()
+        ->getResult();
+    }
+
 //    /**
 //     * @return Eth[] Returns an array of Eth objects
 //     */

@@ -1,4 +1,7 @@
 {% if is_granted('ROLE_ADMIN') %}
+{% set nfts = get_last_five_nft() %}
+
+
 <section class="container-fluid">
         <div class="row flex-nowrap">
             <div class="col-auto col-xl-2 col-md-2 col-sm-2 sidebar">
@@ -55,8 +58,11 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ path('app_nft_index')}}">Index</a></li>
-                                <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{{ path('app_nft_new')}}">Create</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                {% for nft in nfts %}
+                                <li class="dropdown-item">{{ nft.title }}</li>
+                                {% endfor %}
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -85,6 +91,11 @@
                             <a href="#" class="nav-link px-0 align-middle">
                                 <i class="fa-regular fa-heart"></i><span class="ms-1 d-none d-sm-inline">Mes
                                     favoris</span></a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link px-0 align-middle">
+                                <i class="fa-regular fa-heart"></i><span class="ms-1 d-none d-sm-inline">Cour Eth
+                                </span></a>
                         </li>
                         <span class="d-none d-sm-inline my-3 menuList">Compte</span>
                         <li>

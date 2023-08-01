@@ -14,8 +14,6 @@
                 <th>Pseudo</th>
                 <th>FirstName</th>
                 <th>LastName</th>
-                <th>BirthDate</th>
-                <th>PhoneNumber</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -28,8 +26,7 @@
                 <td>{{ user.pseudo }}</td>
                 <td>{{ user.firstName }}</td>
                 <td>{{ user.lastName }}</td>
-                <td>{{ user.birthDate ? user.birthDate|date('Y-m-d') : '' }}</td>
-                <td>{{ user.phoneNumber }}</td>
+                {# <td>{{ user.birthDate ? user.birthDate|date('Y-m-d') : '' }}</td> #}
                 <td>
                     <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
