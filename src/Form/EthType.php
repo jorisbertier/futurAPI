@@ -6,6 +6,7 @@ use App\Entity\Eth;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class EthType extends AbstractType
 {
@@ -13,6 +14,9 @@ class EthType extends AbstractType
     {
         $builder
             ->add('currentPrice')
+            ->add('updateDate', DateTimeType::class, [
+                'widget' => 'single_text',
+            ])
         ;
     }
 

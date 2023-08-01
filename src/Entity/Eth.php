@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EthRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EthRepository::class)]
@@ -16,10 +17,13 @@ class Eth
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?float $currentPrice = null;
+    private ?int $currentPrice = null;
 
     #[ORM\OneToMany(mappedBy: 'eth', targetEntity: Nft::class)]
     private Collection $nfts;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $updateDate = null;
 
     public function __construct()
     {
@@ -31,12 +35,12 @@ class Eth
         return $this->id;
     }
 
-    public function getCurrentPrice(): ?float
+    public function getCurrentPrice(): ?int
     {
         return $this->currentPrice;
     }
 
-    public function setCurrentPrice(float $currentPrice): static
+    public function setCurrentPrice(int $currentPrice): static
     {
         $this->currentPrice = $currentPrice;
 
@@ -69,6 +73,18 @@ class Eth
                 $nft->setEth(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUpdateDate(): ?\DateTimeInterface
+    {
+        return $this->updateDate;
+    }
+
+    public function setUpdateDate(\DateTimeInterface $updateDate): static
+    {
+        $this->updateDate = $updateDate;
 
         return $this;
     }

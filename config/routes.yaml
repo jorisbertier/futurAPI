@@ -4,3 +4,6 @@
 app_logout:
     path: /logout
     methods: POST|GET
+
+api_login_check:
+    path: /api/login_check
