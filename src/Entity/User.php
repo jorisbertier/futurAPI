@@ -56,6 +56,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Nft::class)]
     private Collection $nfts;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $avatar = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $gender = null;
+
     public function __construct()
     {
         $this->adresses = new ArrayCollection();
@@ -305,5 +311,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return $this->pseudo; // Remplacez "username" par la propriété pertinente à afficher
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): static
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): static
+    {
+        $this->gender = $gender;
+
+        return $this;
     }
 }

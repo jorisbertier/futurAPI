@@ -33,7 +33,13 @@
             </tr>
             <tr>
                 <th>FilePath</th>
-                <td>{{ nft.filePath }}</td>
+                    <td>
+                    {% if nft.filePath %}
+                        <img src="{{ asset('upload/' ~ nft.filePath) }}" class="imgNft" alt="Image">
+                    {% else %}
+                        <p>Aucune image disponible.</p>
+                    {% endif %}
+    </td>
             </tr>
             <tr>
                 <th>Alt</th>
@@ -41,6 +47,7 @@
             </tr>
         </tbody>
     </table>
+    
 
     <a href="{{ path('app_nft_index') }}">back to list</a>
 

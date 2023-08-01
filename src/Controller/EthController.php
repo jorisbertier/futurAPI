@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use Symfony\UX\Chartjs\Model\Chart;
+
 
 #[Route('/eth')]
 class EthController extends AbstractController
@@ -23,10 +26,44 @@ class EthController extends AbstractController
     }
 
     #[Route('/courEth', name: 'app_cour_eth', methods: ['GET'])]
-    public function courEth(): Response
+    public function courEth(EntityManagerInterface $entityManager, ChartBuilderInterface $chartBuilder): Response
     {
+        $ethData = $entityManager->getRepository(Eth::class)->findBy([], ['updateDate' => 'DESC'], 7);
+
+        // Préparer les données pour le graphique
+        $chartLabels = [];
+        $chartPrices = [];
+    
+        foreach ($ethData as $data) {
+            $chartLabels[] = $data->getUpdateDate()->format('Y-m-d H:i:s');
+            $chartPrices[] = $data->getCurrentPrice()/100;
+        }
+    
+        $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
+    
+        $chart->setData([
+            'labels' => $chartLabels,
+            'datasets' => [
+                [
+                    'label' => 'ETH Price',
+                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => $chartPrices,
+                ],
+            ],
+        ]);
+    
+        $chart->setOptions([
+            'scales' => [
+                'y' => [
+                    'suggestedMin' => 0,
+                    'suggestedMax' => max($chartPrices), // Utilisez la valeur maximale pour définir la limite supérieure de l'axe Y
+                ],
+            ],
+        ]);
+    
         return $this->render('eth/courEth.html.twig', [
-            
+            'chart' => $chart,
         ]);
     }
 
