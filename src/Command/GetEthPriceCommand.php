@@ -44,8 +44,6 @@ class GetEthPriceCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
 
-
-
         try{
         $httpClient = HttpClient::create();
         $response = $httpClient->request('GET', 'https://min-api.cryptocompare.com/data/price', [

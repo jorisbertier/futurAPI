@@ -32,12 +32,27 @@
                 <td>{{ user.lastName }}</td>
             </tr>
             <tr>
+            <tr>
+                <th>Genre</th>
+                <td>{{ user.gender }}</td>
+            </tr>
+            <tr>
                 <th>BirthDate</th>
                 <td>{{ user.birthDate ? user.birthDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>PhoneNumber</th>
                 <td>{{ user.phoneNumber }}</td>
+            </tr>
+            <tr>
+                <th>Avatar</th>
+                    <td>
+                    {% if user.avatar %}
+                        <img src="{{ asset('upload/' ~ user.avatar) }}" class="imgNft" alt="Image">
+                    {% else %}
+                        <p>Aucune image disponible.</p>
+                    {% endif %}
+            </td>
             </tr>
         </tbody>
     </table>
