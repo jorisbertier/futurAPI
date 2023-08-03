@@ -57,7 +57,6 @@ class NftController extends AbstractController
             10                                  // nbr element par page
         );
 
-
         return $this->render('nft/index.html.twig', [
             'nfts' => $pagination,
             'form' => $form->createView(),

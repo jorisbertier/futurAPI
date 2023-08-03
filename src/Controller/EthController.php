@@ -26,47 +26,6 @@ class EthController extends AbstractController
         ]);
     }
 
-    #[Route('/courEth', name: 'app_cour_eth', methods: ['GET'])]
-    public function courEth(EntityManagerInterface $entityManager, ChartBuilderInterface $chartBuilder): Response
-    {
-        $ethData = $entityManager->getRepository(Eth::class)->findBy([], ['updateDate' => 'DESC'], 7);
-
-        // Préparer les données pour le graphique
-        $chartLabels = [];
-        $chartPrices = [];
-    
-        foreach ($ethData as $data) {
-            $chartLabels[] = $data->getUpdateDate()->format('Y-m-d H:i:s');
-            $chartPrices[] = $data->getCurrentPrice()/100;
-        }
-    
-        $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
-    
-        $chart->setData([
-            'labels' => $chartLabels,
-            'datasets' => [
-                [
-                    'label' => 'ETH Price',
-                    'backgroundColor' => 'rgb(255, 99, 132)',
-                    'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => $chartPrices,
-                ],
-            ],
-        ]);
-    
-        $chart->setOptions([
-            'scales' => [
-                'y' => [
-                    'suggestedMin' => 0,
-                    'suggestedMax' => max($chartPrices), // Utilisez la valeur maximale pour définir la limite supérieure de l'axe Y
-                ],
-            ],
-        ]);
-    
-        return $this->render('eth/courEth.html.twig', [
-            'chart' => $chart,
-        ]);
-    }
 
     #[Route('/new', name: 'app_eth_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

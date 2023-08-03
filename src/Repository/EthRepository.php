@@ -34,7 +34,7 @@ class EthRepository extends ServiceEntityRepository
         ->orderBy('e.updateDate', 'desc')
         ->setMaxResults(1)
         ->getQuery()
-        ->getResult();
+        ->getOneOrNullResult();
     }
 
 //    /**

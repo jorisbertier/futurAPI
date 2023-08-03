@@ -3,7 +3,7 @@
 {% block title %}Nft index{% endblock %}
 
 {% block body %}
-
+    
     <h1>Nft index</h1>
     {{ form_start(form) }}
         {{ form_row(form.nftTitle) }}
@@ -27,7 +27,8 @@
                 <td>{{ nft.id }}</td>
                 <td>{{ nft.dateCreation ? nft.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ nft.dateDrop ? nft.dateDrop|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ nft.price / 100 / 1600 }} ETH</td>
+                <td>{{ nft.price|eth_to_eur}} ETH</td> 
+                {# <td>{% for eth in actualPriceEth%}{{ round(nft.price / 100 / (eth.currentPrice / 100), 5) }} {% endfor %} ETH</td> #}
                 <td>{{ nft.title }}</td>
                 <td>
                     <a href="{{ path('app_nft_show', {'id': nft.id}) }}">show</a>
