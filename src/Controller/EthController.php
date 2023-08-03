@@ -22,6 +22,7 @@ class EthController extends AbstractController
     {
         return $this->render('eth/index.html.twig', [
             'eths' => $ethRepository->findAll(),
+            
         ]);
     }
 

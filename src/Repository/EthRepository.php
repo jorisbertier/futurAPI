@@ -29,6 +29,14 @@ class EthRepository extends ServiceEntityRepository
         ->getResult();
     }
 
+    public function findActualPrice() {
+        return $this->createQueryBuilder('e')
+        ->orderBy('e.updateDate', 'desc')
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getResult();
+    }
+
 //    /**
 //     * @return Eth[] Returns an array of Eth objects
 //     */

@@ -9,7 +9,7 @@
         {{ form_row(form.nftTitle) }}
         <button type="submit">Rechercher</button>
     {{ form_end(form) }}
-
+    <h1>{% for eth in actualPriceEth %}{{ eth.currentPrice }}{% endfor %}</h1>
     <table class="table">
         <thead>
             <tr>
@@ -27,7 +27,7 @@
                 <td>{{ nft.id }}</td>
                 <td>{{ nft.dateCreation ? nft.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ nft.dateDrop ? nft.dateDrop|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ nft.price / 100 }}€</td>
+                <td>{{ nft.price / 100 / 1600 }} ETH</td>
                 <td>{{ nft.title }}</td>
                 <td>
                     <a href="{{ path('app_nft_show', {'id': nft.id}) }}">show</a>

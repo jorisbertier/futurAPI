@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\NftRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\NftRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: NftRepository::class)]
 class Nft
@@ -14,6 +15,7 @@ class Nft
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['nft'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -26,6 +28,7 @@ class Nft
     private ?float $price = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['nft', 'category'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

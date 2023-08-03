@@ -8,6 +8,8 @@ use App\Entity\Nft;
 use App\Form\NftType;
 use App\Form\NftSearchType;
 use App\Entity\CollectionNft;
+use App\Repository\CategoryRepository;
+use App\Repository\EthRepository;
 use App\Repository\NftRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -30,8 +32,9 @@ class NftController extends AbstractController
 
 
     #[Route('/', name: 'app_nft_index', methods: ['GET'])]
-    public function index(NftRepository $nftRepository, Request $request): Response
+    public function index(NftRepository $nftRepository, Request $request, EthRepository $ethRepository): Response
     {
+        
         $qb = $nftRepository->getQbAll();
 
         $form = $this->createForm(NftSearchType::class);
@@ -58,6 +61,7 @@ class NftController extends AbstractController
         return $this->render('nft/index.html.twig', [
             'nfts' => $pagination,
             'form' => $form->createView(),
+            'actualPriceEth' => $ethRepository->findActualPrice()
         ]);
     }
 
@@ -147,4 +151,19 @@ class NftController extends AbstractController
 
         return $this->redirectToRoute('app_nft_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/api/nft', 'api_nft')]
+    public function apiNft(NftRepository $nftRepository)
+    {
+        $nfts = $nftRepository->findAll();
+        return $this->json($nfts, context: ['groups' => 'nft']);
+    }
+
+    #[Route('/api/category', 'api_category')]
+    public function apiCategory(CategoryRepository $categoryRepository)
+    {
+        $categories = $categoryRepository->findAll();
+        return $this->json($categories, context: ['groups' => 'category']);
+    }
+
 }
