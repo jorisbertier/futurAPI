@@ -7,6 +7,8 @@
     <h1>Nft index</h1>
     {{ form_start(form) }}
         {{ form_row(form.nftTitle) }}
+        {{ form_row(form.dateCreation) }}
+        {{ form_row(form.orderByPrice) }}
         <button type="submit">Rechercher</button>
     {{ form_end(form) }}
     <h1>{% for eth in actualPriceEth %}{{ eth.currentPrice }}{% endfor %}</h1>
@@ -27,7 +29,7 @@
                 <td>{{ nft.id }}</td>
                 <td>{{ nft.dateCreation ? nft.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ nft.dateDrop ? nft.dateDrop|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ nft.price|eth_to_eur}} ETH</td> 
+                <td>{{ nft.price|eth_to_eur}} €</td> 
                 {# <td>{% for eth in actualPriceEth%}{{ round(nft.price / 100 / (eth.currentPrice / 100), 5) }} {% endfor %} ETH</td> #}
                 <td>{{ nft.title }}</td>
                 <td>

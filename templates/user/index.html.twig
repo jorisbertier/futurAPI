@@ -4,6 +4,10 @@
 
 {% block body %}
     <h1>User index</h1>
+        {{ form_start(form) }}
+        {{ form_row(form.userEmail) }}
+        <button type="submit">Rechercher</button>
+    {{ form_end(form) }}
 
     <table class="table">
         <thead>
@@ -39,6 +43,8 @@
         {% endfor %}
         </tbody>
     </table>
+
+    {{ knp_pagination_render(users, '@KnpPaginator/Pagination/bootstrap_v5_pagination.html.twig') }}
 
     <a href="{{ path('app_user_new') }}">Create new</a>
 {% endblock %}

@@ -47,6 +47,17 @@ class NftController extends AbstractController
                 $qb->andwhere('n.title LIKE :title')
                 ->setParameter('title', '%'. $data['nftTitle'] .'%');
             }
+            if($data['dateCreation'] !== null) {
+                $qb->andWhere('n.dateCreation > :dateCreation')
+                ->setParameter('dateCreation', $data['dateCreation']);
+            }
+            if($data['orderByPrice'] === 'DESC') {
+                $qb->andwhere('n.price IS NOT NULL')
+                ->orderBy('n.price', 'DESC');
+            } elseif($data['orderByPrice'] === 'ASC') {
+                $qb->andwhere('n.price IS NOT NULL')
+                ->orderBy('n.price', 'ASC');
+            }
         }
 
         // $nfts = $qb->getQuery()->getResult();

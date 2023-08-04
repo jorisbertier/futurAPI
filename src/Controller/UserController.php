@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\UserSearchType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,12 +19,38 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[Route('/user')]
 class UserController extends AbstractController
 {
+    public function __construct(
+        private PaginatorInterface $paginator
+    ){
+
+    }
     
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, Request $request): Response
     {
+        $qb = $userRepository->getQbAll();
+
+        $form = $this->createForm(UserSearchType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if($data['userEmail'] !== null) {
+                $qb->andwhere('u.email LIKE :email')
+                ->setParameter('email', '%'. $data['userEmail'] .'%');
+            }
+        }
+        $pagination = $this->paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1), // réxupérer le get
+            5                                  // nbr element par page
+        );
+
+
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $pagination,
+            'form' => $form->createView(),
         ]);
     }
 
