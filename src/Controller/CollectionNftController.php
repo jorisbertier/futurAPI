@@ -4,21 +4,51 @@ namespace App\Controller;
 
 use App\Entity\CollectionNft;
 use App\Form\CollectionNftType;
-use App\Repository\CollectionNftRepository;
+use App\Form\CollectionNftSearchType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\CollectionNftRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/collection/nft')]
 class CollectionNftController extends AbstractController
 {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private PaginatorInterface $paginator
+    ){
+
+    }
+
     #[Route('/', name: 'app_collection_nft_index', methods: ['GET'])]
-    public function index(CollectionNftRepository $collectionNftRepository): Response
+    public function index(CollectionNftRepository $collectionNftRepository, Request $request): Response
     {
+        $qb = $collectionNftRepository->getQbAll();
+
+        $form = $this->createForm(CollectionNftSearchType::class);
+        $form->handleRequest($request);   // écoute les globales
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if($data['mediaCollectionNft'] !== null) {
+                $qb->andwhere('c.label LIKE :collection')
+                ->setParameter('collection', '%'. $data['mediaCollectionNft'] .'%');
+            }
+        }
+
+        $pagination = $this->paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1),
+            10                                  
+        );
         return $this->render('collection_nft/index.html.twig', [
-            'collection_nfts' => $collectionNftRepository->findAll(),
+            // 'collection_nfts' => $collectionNftRepository->findAll(),
+            'collection_nfts' => $pagination,
+            'form' => $form->createView()
         ]);
     }
 

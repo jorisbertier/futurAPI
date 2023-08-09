@@ -4,6 +4,10 @@
 
 {% block body %}
     <h1>CollectionNft index</h1>
+    {{ form_start(form) }}
+        {{ form_row(form.mediaCollectionNft) }}
+        <button type="submit">Rechercher</button>
+    {{ form_end(form) }}
 
     <table class="table">
         <thead>
@@ -30,6 +34,8 @@
         {% endfor %}
         </tbody>
     </table>
+
+    {{ knp_pagination_render(collection_nfts, '@KnpPaginator/Pagination/bootstrap_v5_pagination.html.twig') }}
 
     <a href="{{ path('app_collection_nft_new') }}">Create new</a>
 {% endblock %}

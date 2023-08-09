@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Category;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Category>
@@ -21,6 +22,10 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
+    public function getQbAll(): QueryBuilder
+    {
+        return $this->createQueryBuilder('c');
+    }
 //    /**
 //     * @return Category[] Returns an array of Category objects
 //     */

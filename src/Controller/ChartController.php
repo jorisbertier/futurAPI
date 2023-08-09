@@ -36,17 +36,14 @@ class ChartController extends AbstractController
         }
 
         foreach ($solanaData as $data) {
-            $chartLabels[] = $data->getUpdateDate()->format('Y-m-d H:i:s');
             $chartSolanaPrices[] = $data->getCurrentPrice()/100;
         }
 
         foreach ($binanceCoinData as $data) {
-            $chartLabels[] = $data->getUpdateDate()->format('Y-m-d H:i:s');
             $chartBinanceCoinPrices[] = $data->getCurrentPrice()/100;
         }
 
         foreach ($bitcoinData as $data) {
-            $chartLabels[] = $data->getUpdateDate()->format('Y-m-d H:i:s');
             $chartBitcoinPrices[] = $data->getCurrentPrice()/100;
         }
     

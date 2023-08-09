@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\CollectionNft;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<CollectionNft>
@@ -21,6 +22,10 @@ class CollectionNftRepository extends ServiceEntityRepository
         parent::__construct($registry, CollectionNft::class);
     }
 
+    public function getQbAll(): QueryBuilder
+    {
+        return $this->createQueryBuilder('c');
+    }
 //    /**
 //     * @return CollectionNft[] Returns an array of CollectionNft objects
 //     */

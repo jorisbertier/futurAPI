@@ -4,21 +4,53 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Form\CategorySearchType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/category')]
 class CategoryController extends AbstractController
 {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private PaginatorInterface $paginator
+    ){
+
+    }
+
     #[Route('/', name: 'app_category_index', methods: ['GET'])]
-    public function index(CategoryRepository $categoryRepository): Response
+    public function index(CategoryRepository $categoryRepository, Request $request): Response
     {
+        $qb = $categoryRepository->getQbAll();
+
+        $form = $this->createForm(CategorySearchType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if($data['mediaCategory'] !== null) {
+                $qb->andwhere('c.label LIKE :category')
+                ->setParameter('category', '%'. $data['mediaCategory'] .'%');
+            }
+        }
+
+		
+
+        $pagination = $this->paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1),
+            10                                 
+        );
         return $this->render('category/index.html.twig', [
-            'categories' => $categoryRepository->findAll(),
+            // 'categories' => $categoryRepository->findAll(),
+            'categories' => $pagination,
+            'form' => $form->createView()
         ]);
     }
 
