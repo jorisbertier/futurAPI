@@ -5,17 +5,21 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
-class EthSearchType extends AbstractType
+class AdressSearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->setMethod('GET')
-            ->add('updateDate', DateTimeType::class, [
-                'date_widget' => 'choice',
-                'label' => 'Par date de création supérieure à :',
+            ->add('nameStreet', TextType::class, [
+                'label' => 'Nom de la rue :',
+                'required' => false
+            ])
+            ->add('zipCode', IntegerType::class, [
+                'label' => 'Zip Code :',
                 'required' => false
             ])
         ;

@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Eth;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Eth>
@@ -19,6 +20,11 @@ class EthRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Eth::class);
+    }
+
+    public function getQbAll(): QueryBuilder
+    {
+        return $this->createQueryBuilder('e');
     }
 
     public function findLastSevenEth() {

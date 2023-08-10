@@ -4,21 +4,57 @@ namespace App\Controller;
 
 use App\Entity\Adress;
 use App\Form\AdressType;
+use App\Form\AdressSearchType;
 use App\Repository\AdressRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/adress')]
 class AdressController extends AbstractController
 {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private AdressRepository $adressRepository,
+        private PaginatorInterface $paginator
+    ){
+
+    }
+    
     #[Route('/', name: 'app_adress_index', methods: ['GET'])]
-    public function index(AdressRepository $adressRepository): Response
+    public function index(AdressRepository $adressRepository, Request $request): Response
     {
+        $qb = $adressRepository->getQbAll();
+
+        $form = $this->createForm(AdressSearchType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if($data['nameStreet'] !== null) {
+                $qb->andwhere('a.street LIKE :street')
+                ->setParameter('street', '%'. $data['nameStreet'] . '%');
+            }
+
+            if($data['zipCode'] !== null) {
+                $qb->andwhere('a.zipCode LIKE :zipCode')
+                ->setParameter('zipCode', $data['zipCode']);
+            }
+        }
+
+
+        $pagination = $this->paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1),
+            7                              
+        );
         return $this->render('adress/index.html.twig', [
-            'adresses' => $adressRepository->findAll(),
+            'adresses' => $pagination,
+            'form' => $form->createView(),
         ]);
     }
 

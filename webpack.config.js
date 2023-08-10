@@ -22,6 +22,8 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addStyleEntry('sidebar', './assets/styles/sidebar.scss')
+    .addStyleEntry('nav', './assets/styles/nav.scss')
+    .addStyleEntry('button', './assets/styles/button.scss')
 
     .copyFiles([
         {from: './assets/img', to: 'img/[path][name].[ext]'}

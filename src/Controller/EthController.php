@@ -4,24 +4,55 @@ namespace App\Controller;
 
 use App\Entity\Eth;
 use App\Form\EthType;
+use App\Form\EthSearchType;
 use App\Repository\EthRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
-use Symfony\UX\Chartjs\Model\Chart;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 
 #[Route('/eth')]
 class EthController extends AbstractController
 {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private EthRepository $ethRepository,
+        private PaginatorInterface $paginator
+    ){
+
+    }
+
     #[Route('/', name: 'app_eth_index', methods: ['GET'])]
-    public function index(EthRepository $ethRepository): Response
+    public function index(EthRepository $ethRepository, Request $request): Response
     {
+        $qb = $ethRepository->getQbAll();
+
+        $form = $this->createForm(EthSearchType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            if($data['updateDate'] !== null) {
+                $qb->andwhere('e.updateDate > :updateDate')
+                ->setParameter('updateDate', $data['updateDate']);
+            }
+        }
+
+
+        $pagination = $this->paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1),
+            7                              
+        );
+
         return $this->render('eth/index.html.twig', [
-            'eths' => $ethRepository->findAll(),
+            'eths' => $pagination,
+            'form' => $form->createView()
             
         ]);
     }

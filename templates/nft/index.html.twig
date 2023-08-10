@@ -9,8 +9,11 @@
         {{ form_row(form.nftTitle) }}
         {{ form_row(form.dateCreation) }}
         {{ form_row(form.orderByPrice) }}
-        <button type="submit">Rechercher</button>
+        <button type="submit" class="btn search">Rechercher</button>
     {{ form_end(form) }}
+    <br>
+    <br>
+
     <h1>{% for eth in actualPriceEth %}{{ eth.currentPrice }}{% endfor %}</h1>
     <table class="table">
         <thead>

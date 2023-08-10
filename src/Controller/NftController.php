@@ -38,7 +38,7 @@ class NftController extends AbstractController
         $qb = $nftRepository->getQbAll();
 
         $form = $this->createForm(NftSearchType::class);
-        $form->handleRequest($request);   // écoute les globales
+        $form->handleRequest($request); 
 
         if($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();

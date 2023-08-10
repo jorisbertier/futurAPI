@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Adress;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Adress>
@@ -20,7 +21,11 @@ class AdressRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Adress::class);
     }
-
+    
+    public function getQbAll(): QueryBuilder
+    {
+        return $this->createQueryBuilder('a');
+    }
 //    /**
 //     * @return Adress[] Returns an array of Adress objects
 //     */

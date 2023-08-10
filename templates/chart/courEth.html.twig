@@ -5,11 +5,11 @@
 {% block body %}
     <h1>Cour ETh / 7 dernier jour</h1>
     {{ render_chart(chart) }}
-    <ul>
-    {% set eths = get_last_seven_eth() %}
+    {# <ul> #}
+    {# {% set eths = get_last_seven_eth() %}
     {% for eth in eths %}
     <li>{{ eth.currentPrice }}</li><br>
     {{ eth.updateDate|date('Y-m-d H:i:s') }}
-    {% endfor %}
-    </ul>
+    {% endfor %} #}
+    {# </ul> #}
 {% endblock %}

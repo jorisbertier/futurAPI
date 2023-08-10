@@ -4,6 +4,13 @@
 
 {% block body %}
     <h1>Adress index</h1>
+    {{ form_start(form) }}
+        {{ form_row(form.nameStreet)}}
+        {{ form_row(form.zipCode)}}
+        <button type="submit" class="btn search">Rechercher</button>
+    {{ form_end(form) }}
+    <br>
+    <br>
 
     <table class="table">
         <thead>
@@ -36,6 +43,9 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(adresses, '@KnpPaginator/Pagination/bootstrap_v5_pagination.html.twig') }}
+    </div>
 
     <a href="{{ path('app_adress_new') }}">Create new</a>
 {% endblock %}
