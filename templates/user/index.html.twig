@@ -18,8 +18,8 @@
                 <th>Email</th>
                 <th>Roles</th>
                 <th>Pseudo</th>
-                <th>FirstName</th>
-                <th>LastName</th>
+                {# <th>FirstName</th>
+                <th>LastName</th> #}
                 <th>actions</th>
             </tr>
         </thead>
@@ -30,12 +30,12 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.pseudo }}</td>
-                <td>{{ user.firstName }}</td>
-                <td>{{ user.lastName }}</td>
+                {# <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td> #}
                 {# <td>{{ user.birthDate ? user.birthDate|date('Y-m-d') : '' }}</td> #}
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                    <button type="submit" class="btn showButton"><a href="{{ path('app_user_show', {'id': user.id}) }}">show</a></button>
+                    <button type="submit" class="btn editButton"><a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a></button>
                 </td>
             </tr>
         {% else %}
@@ -48,5 +48,5 @@
 
     {{ knp_pagination_render(users, '@KnpPaginator/Pagination/bootstrap_v5_pagination.html.twig') }}
 
-    <a href="{{ path('app_user_new') }}">Create new</a>
+    <button type="submit" class="btn showButton"><a href="{{ path('app_user_new') }}">Create new</a></button>
 {% endblock %}

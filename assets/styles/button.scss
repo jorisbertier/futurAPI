@@ -1,6 +1,46 @@
 @import "variable";
 
-.search {
-    background-color: $purple;
-    color: $background-color;
+
+.showButton {
+background-color: $purple;
+color: $background-color;
+    a {
+        text-decoration: none;
+        color: $background-color;
+    }
 }
+
+.editButton {
+    background-color: $grey;
+    color: $background-color;
+    a {
+        text-decoration: none;
+        color: $background-color;
+    }
+}
+
+//hover 
+
+.showButton:hover {
+    background-color: $purple;
+    filter: invert(20%);
+}
+
+.editButton:hover {
+    background-color: $grey;
+    filter: invert(20%);
+}
+
+.updateButton:hover {
+    background-color: $green;
+    filter: invert(20%);
+}
+
+.active {
+    background-color: $purple!important;
+}
+.page-link {
+    color: $black;
+    // background-color: yellow;
+}
+

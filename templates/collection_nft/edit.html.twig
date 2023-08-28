@@ -7,7 +7,8 @@
 
     {{ include('collection_nft/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_collection_nft_index') }}">back to list</a>
 
-    {{ include('collection_nft/_delete_form.html.twig') }}
+    {{ include('collection_nft/_delete_form.html.twig') }}<br>
+    
+    <button type="submit" class="btn editButton"><a href="{{ path('app_collection_nft_index') }}">back to list</a></button>
 {% endblock %}

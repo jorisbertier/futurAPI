@@ -7,7 +7,7 @@
 
     {{ include('eth/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_eth_index') }}">back to list</a>
+    {{ include('eth/_delete_form.html.twig') }}<br>
 
-    {{ include('eth/_delete_form.html.twig') }}
+    <button type="submit" class="btn editButton"><a href="{{ path('app_eth_index') }}">back to list</a></button>
 {% endblock %}

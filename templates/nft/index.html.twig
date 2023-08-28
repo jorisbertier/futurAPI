@@ -36,8 +36,8 @@
                 {# <td>{% for eth in actualPriceEth%}{{ round(nft.price / 100 / (eth.currentPrice / 100), 5) }} {% endfor %} ETH</td> #}
                 <td>{{ nft.title }}</td>
                 <td>
-                    <a href="{{ path('app_nft_show', {'id': nft.id}) }}">show</a>
-                    <a href="{{ path('app_nft_edit', {'id': nft.id}) }}">edit</a>
+                    <button type="submit" class="btn showButton"><a href="{{ path('app_nft_show', {'id': nft.id}) }}">show</a></button>
+                    <button type="submit" class="btn editButton"><a href="{{ path('app_nft_edit', {'id': nft.id}) }}">edit</a></button>
                 </td>
             </tr>
         {% else %}
@@ -52,6 +52,6 @@
 
     
 
-    <a href="{{ path('app_nft_new') }}">Create new</a>
+    <button type="submit" class="btn showButton"><a href="{{ path('app_nft_new') }}">Create new</a></button>
 
 {% endblock %}

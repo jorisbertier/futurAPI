@@ -57,24 +57,28 @@ class ChartController extends AbstractController
                     'backgroundColor' => 'rgb(255, 99, 132)',
                     'borderColor' => 'rgb(255, 99, 132)',
                     'data' => $chartEthPrices,
+                    'tension' => 0.4
                 ],
                 [
                     'label' => 'Bitcoin Price',
                     'backgroundColor' => 'rgb(255, 99, 132)',
                     'borderColor' => 'rgb(255, 99, 132)',
                     'data' => $chartBitcoinPrices,
+                    'tension' => 0.4
                 ],
                 [
                     'label' => 'Binance Price',
                     'backgroundColor' => 'rgb(255, 99, 132)',
                     'borderColor' => 'rgb(255, 99, 132)',
                     'data' => $chartBinanceCoinPrices,
+                    'tension' => 0.4
                 ],
                 [
                     'label' => 'Solana Price',
                     'backgroundColor' => 'rgb(255, 99, 132)',
                     'borderColor' => 'rgb(255, 99, 132)',
                     'data' => $chartSolanaPrices,
+                    'tension' => 0.4
                 ],
             ],
         ]);
@@ -115,8 +119,13 @@ class ChartController extends AbstractController
                 [
                     'label' => 'ETH Price',
                     'backgroundColor' => 'rgb(255, 99, 132)',
-                    'borderColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(75, 192, 192)',
                     'data' => $chartPrices,
+                    'fill'=> false,
+                    'tension' => 0.4,
+                    'pointRadius' => 6,
+                    
+
                 ],
             ],
         ]);

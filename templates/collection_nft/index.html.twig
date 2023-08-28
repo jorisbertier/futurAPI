@@ -25,8 +25,8 @@
                 <td>{{ collection_nft.id }}</td>
                 <td>{{ collection_nft.label }}</td>
                 <td>
-                    <a href="{{ path('app_collection_nft_show', {'id': collection_nft.id}) }}">show</a>
-                    <a href="{{ path('app_collection_nft_edit', {'id': collection_nft.id}) }}">edit</a>
+                    <button type="submit" class="btn showButton"><a href="{{ path('app_collection_nft_show', {'id': collection_nft.id}) }}">show</a></button>
+                    <button type="submit" class="btn editButton"><a href="{{ path('app_collection_nft_edit', {'id': collection_nft.id}) }}">edit</a></button>
                 </td>
             </tr>
         {% else %}
@@ -36,8 +36,8 @@
         {% endfor %}
         </tbody>
     </table>
-
+    <div class="navigation">
     {{ knp_pagination_render(collection_nfts, '@KnpPaginator/Pagination/bootstrap_v5_pagination.html.twig') }}
-
-    <a href="{{ path('app_collection_nft_new') }}">Create new</a>
+    </div>
+    <button type="submit" class="btn showButton"><a href="{{ path('app_collection_nft_new') }}">Create new</a></button>
 {% endblock %}

@@ -25,27 +25,29 @@
         </thead>
         <tbody>
         {% for adress in adresses %}
+        
             <tr>
                 <td>{{ adress.id }}</td>
                 <td>{{ adress.city }}</td>
                 <td>{{ adress.zipCode }}</td>
                 <td>{{ adress.street }}</td>
                 <td>{{ adress.country }}</td>
+                
                 <td>
-                    <a href="{{ path('app_adress_show', {'id': adress.id}) }}">show</a>
-                    <a href="{{ path('app_adress_edit', {'id': adress.id}) }}">edit</a>
+                    <button type="submit" class="btn showButton"><a href="{{ path('app_adress_show', {'id': adress.id}) }}">show</a></button>
+                    <button type="submit" class="btn editButton"><a href="{{ path('app_adress_edit', {'id': adress.id}) }}">edit</a></button>
                 </td>
             </tr>
         {% else %}
             <tr>
                 <td colspan="6">no records found</td>
-            </tr>
+            </tr>        
         {% endfor %}
         </tbody>
     </table>
     <div class="navigation">
         {{ knp_pagination_render(adresses, '@KnpPaginator/Pagination/bootstrap_v5_pagination.html.twig') }}
     </div>
-
-    <a href="{{ path('app_adress_new') }}">Create new</a>
+    {# <small>Nombre total : {{ adresses|length }}</small><br> #}
+    <button type="submit" class="btn showButton"><a href="{{ path('app_adress_new') }}">Create new</a></button>
 {% endblock %}
