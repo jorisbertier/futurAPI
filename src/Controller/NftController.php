@@ -134,12 +134,31 @@ class NftController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_nft_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Nft $nft, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Nft $nft, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(NftType::class, $nft);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form->get('filePath')->getData();
+
+            if($file) {
+                $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFileName);
+                $newFileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+            }
+
+            try{
+                $file->move(
+                    $this->getParameter('upload_file'),
+                    $newFileName
+                );
+                $nft->setFilePath($newFileName);
+            } catch (FileException $e){
+
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_nft_index', [], Response::HTTP_SEE_OTHER);

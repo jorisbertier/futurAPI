@@ -2,12 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\Nft;
 use App\Entity\Category;
 use App\Entity\CollectionNft;
-use App\Entity\Nft;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
@@ -17,7 +19,18 @@ class NftType extends AbstractType
     {
         $builder
             ->add('filePath', FileType::class, [
-                'mapped' => false
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new Valid(),
+                    new File([
+                        'maxSize' => '8000k',
+                        'mimeTypes' => [
+                            'image/*',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid Format image',
+                    ])
+                ],
             ])
             ->add('price')
             ->add('title')

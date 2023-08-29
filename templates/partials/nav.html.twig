@@ -6,17 +6,21 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      {% if is_granted('ROLE_ADMIN') %}
         <li class="nav-item">
           <a class="nav-link" aria-current="page" href="#">AdminPanel</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
+      {% endif %}
       </ul>
       <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="text">Login</button>
-        <button class="btn btn-outline-success" type="text">Register</button>
+        {# <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> #}
+        {% if not is_granted('ROLE_ADMIN') %}
+        <button class="btn showButton" type="text"><a href="{{ path('app_login')}}" class="text-decoration-none">Login</a></button>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+        <button class="btn showButton" type="text"><a href="{{ path('app_logout')}}" class="text-decoration-none">Logout</a></button>
+        {% endif %}
+        {# <button class="btn btn-outline-success" type="text">Register</button> #}
       </form>
     </div>
   </div>

@@ -52,6 +52,15 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/adress, roles: ROLE_ADMIN}
+        - { path: ^/category, roles: ROLE_ADMIN}
+        - { path: ^/chart, roles: ROLE_ADMIN}
+        - { path: ^/collection/nft, roles: ROLE_ADMIN}
+        - { path: ^/eth, roles: ROLE_ADMIN}
+        - { path: ^/nft, roles: ROLE_ADMIN}
+        - { path: ^/panel/admin, roles: ROLE_ADMIN}
+        - { path: ^/transaction, roles: ROLE_ADMIN}
+        - { path: ^/user, roles: ROLE_ADMIN}
 
 when@test:
     security:

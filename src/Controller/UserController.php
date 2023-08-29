@@ -114,12 +114,34 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, SluggerInterface $slugger, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
+        
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form->get('avatar')->getData();
+
+            if($file !== null) {
+                $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFileName);
+                $newFileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+                try{
+                    $file->move(
+                        $this->getParameter('upload_file'),
+                        $newFileName
+                    );
+                    $user->setAvatar($newFileName);
+                } catch (FileException $e){
+    
+                }
+
+            }
+            //AVANT
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
