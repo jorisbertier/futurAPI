@@ -89,21 +89,21 @@
                         <span class="d-none d-sm-inline my-3 menuList">Graphique</span>
                         <li>
                             <a href="{{ path('app_chart_eth')}}" class="nav-link px-0 align-middle">
-                                <i class="fa-regular fa-heart"></i><span class="ms-1 d-none d-sm-inline">Cour Eth
+                                <i class="fa-regular fa-heart"></i><span class="ms-1 d-none d-sm-inline">Cours Eth
                                 </span></a>
                         </li>
                         <li>
                             <a href="{{ path('app_chart')}}" class="nav-link px-0 align-middle">
-                                <i class="fa-regular fa-heart"></i><span class="ms-1 d-none d-sm-inline">Cour cryptomonaie</span></a>
+                                <i class="fa-regular fa-heart"></i><span class="ms-1 d-none d-sm-inline">Cours cryptomonaie</span></a>
                         </li>
                         <span class="d-none d-sm-inline my-3 menuList">Compte</span>
                         <li>
-                            <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
+                            <a href="{{ path('app_user_profil_edit')}}" class="nav-link px-0 align-middle ">
                                 <i class="fa-regular fa-user"></i><span
                                     class="ms-1 d-none d-sm-inline">Profil</span></a>
                         </li>
                         <li>
-                            <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                            <a href="#submenu3" class="nav-link px-0 align-middle">
                                 <i class="fa-solid fa-gear"></i><span class="ms-1 d-none d-sm-inline">Paramètres</span>
                             </a>
                         </li>
@@ -118,7 +118,7 @@
                     <div class="dropdown text-decoration-none pb-4">
                         <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle"
                             id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{asset('upload/'~ app.user.avatar) }}" alt="hugenerd" width="45" height="40" class="rounded-circle">
+                            <img src="{{asset('upload/'~ app.user.avatar) }}" alt="hugenerd" width="40" height="40" class="rounded-circle">
                             <span class="d-none d-sm-inline mx-1 text-white">
                             {{ app.user.firstName}}
                             </span>

@@ -140,7 +140,7 @@ class ChartController extends AbstractController
             'scales' => [
                 'y' => [
                     'suggestedMin' => 0,
-                    'suggestedMax' => max($chartPrices), // Utilisez la valeur maximale pour définir la limite supérieure de l'axe Y
+                    'suggestedMax' => max($chartPrices) . ' €', // Utilisez la valeur maximale pour définir la limite supérieure de l'axe Y
                 ],
             ],
         ]);

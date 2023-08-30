@@ -172,4 +172,21 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/edit/profil', name: 'app_user_profil_edit')]
+    public function profil(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush(); 
+        }
+    
+        return $this->render('user/profil.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }
