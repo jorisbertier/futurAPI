@@ -148,17 +148,17 @@ class NftController extends AbstractController
                 $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFileName);
                 $newFileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+                try{
+                    $file->move(
+                        $this->getParameter('upload_file'),
+                        $newFileName
+                    );
+                    $nft->setFilePath($newFileName);
+                } catch (FileException $e){
+    
+                }
             }
 
-            try{
-                $file->move(
-                    $this->getParameter('upload_file'),
-                    $newFileName
-                );
-                $nft->setFilePath($newFileName);
-            } catch (FileException $e){
-
-            }
 
             $entityManager->flush();
 
