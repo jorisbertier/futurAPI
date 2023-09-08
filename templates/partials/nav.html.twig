@@ -15,10 +15,10 @@
       <form class="d-flex" role="search">
         {# <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> #}
         {% if not is_granted('ROLE_ADMIN') %}
-        <button class="btn showButton" type="text"><a href="{{ path('app_login')}}" class="text-decoration-none">Login</a></button>
+        <a href="{{ path('app_login')}}" class="btn text-decoration-none showButton">Login</a>
         {% endif %}
         {% if is_granted('ROLE_ADMIN') %}
-        <button class="btn showButton" type="text"><a href="{{ path('app_logout')}}" class="text-decoration-none">Logout</a></button>
+        <a href="{{ path('app_logout')}}" class="btn text-decoration-none showButton">Logout</a>
         {% endif %}
         {# <button class="btn btn-outline-success" type="text">Register</button> #}
       </form>
