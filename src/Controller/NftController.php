@@ -225,6 +225,8 @@ class NftController extends AbstractController
             $collection = new CollectionNft();
             $collection->setLabel($requestData['collection']);
         
+            $nft->addCategory($category);
+            $nft->setCollection($collection);
             $entityManager->persist($nft);
             $entityManager->persist($category);
             $entityManager->persist($collection);
