@@ -88,7 +88,7 @@ class UserController extends AbstractController
                 } catch (FileException $e){
                 }
             }
-
+            $user->setRoles(['ROLE_USER']);
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -209,11 +209,10 @@ class UserController extends AbstractController
     }
 
     #[Route('/api/user/', name: 'api_user_id', methods: ['POST'])]
-    public function apiEdit(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $userPasswordHasher)
+    public function apiNew(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $userPasswordHasher)
     {
         try {
         $requestData = json_decode($request->getContent(), true);
-        // var_dump($requestData);
 
         $user = new User();
 
@@ -258,4 +257,64 @@ class UserController extends AbstractController
         );
         }
     }
+
+    #[Route('/api/user/{id}', name: 'api_user_edit', methods: ['PUT'])]
+    public function apiEdit(User $user, EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $userPasswordHasher): JsonResponse
+    {
+        try {
+            $requestData = json_decode($request->getContent(), true);
+
+            if (isset($requestData['email'])) {
+                $user->setEmail($requestData['email']);
+            }
+            if (isset($requestData['password'])) {
+                // Vous pouvez également gérer la mise à jour du mot de passe si nécessaire
+                $hashedPassword = $userPasswordHasher->hashPassword(
+                    $user,
+                    $requestData['password']
+                );
+                $user->setPassword($hashedPassword);
+            }
+            if (isset($requestData['pseudo'])) {
+                $user->setPseudo($requestData['pseudo']);
+            }
+            if (isset($requestData['firstName'])) {
+                $user->setFirstName($requestData['firstName']);
+            }
+            if (isset($requestData['lastName'])) {
+                $user->setLastName($requestData['lastName']);
+            }
+            if (isset($requestData['birth'])) {
+                $datePost = date_parse_from_format('j/n/Y', $requestData['birth']);
+                $date = new DateTime();
+                $date->setDate($datePost['year'], $datePost['month'], $datePost['day']);
+                $user->setBirthDate($date);
+            }
+            if (isset($requestData['phoneNumber'])) {
+                $user->setPhoneNumber($requestData['phoneNumber']);
+            }
+            if (isset($requestData['avatar'])) {
+                $user->setAvatar($requestData['avatar']);
+            }
+            if (isset($requestData['gender'])) {
+                $user->setGender($requestData['gender']);
+            }
+            // Ajoutez d'autres champs ici...
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return new JsonResponse(['message' => 'User updated successfully'], Response::HTTP_OK);
+        } catch (Exception $e) {
+            return new JsonResponse(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    #[Route('/api/delete/{id}', name: 'api_user_delete', methods: ['DELETE'])]
+    public function apiDeleteUser(User $user, EntityManagerInterface $entityManager): JsonResponse {
+        $entityManager->remove($user);
+        $entityManager->flush();
+        return $this->json(['message' => 'User delete successfull'], Response::HTTP_NO_CONTENT);
+    }
+
 }
