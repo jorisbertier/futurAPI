@@ -11,11 +11,9 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-#[IsGranted('ROLE_ADMIN')]
 #[Route('/eth')]
 class EthController extends AbstractController
 {
@@ -114,6 +112,23 @@ class EthController extends AbstractController
         }
 
         return $this->redirectToRoute('app_eth_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/api/eth', 'api_eth',  methods: ['GET'])]
+    public function apiEth(EthRepository $ethRepository)
+    {
+        $eth = $ethRepository->findLastSevenEth();
+        
+        header('Access-Control-Allow-Origin: *');
+        return $this->json($eth, context: ['groups' => 'eth']);
+    }
+
+    #[Route('/api/eth/one', 'api_eth_one',  methods: ['GET'])]
+    public function apiEthLastPrice(EthRepository $ethRepository)
+    {
+        $eth = $ethRepository->findActualPrice();
+        
+        return $this->json($eth, context: ['groups' => 'eth']);
     }
 
 

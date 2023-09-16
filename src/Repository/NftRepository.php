@@ -39,7 +39,16 @@ class NftRepository extends ServiceEntityRepository
         ->getResult();
     }
 
-
+        public function findLastSixNarutoNft()
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.collection = :collectionId') // Utilisation de la relation directe avec la catégorie
+            ->setParameter('collectionId', 12) // Remplacez 12 par l'ID de catégorie souhaité
+            ->orderBy('n.dateCreation', 'desc')
+            ->setMaxResults(6)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Nft[] Returns an array of Nft objects
 //     */
