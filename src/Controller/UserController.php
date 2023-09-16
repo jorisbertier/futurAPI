@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use DateTime;
+use Exception;
 use App\Entity\User;
+use App\Entity\Adress;
 use App\Form\UserType;
 use App\Form\UserSearchType;
 use App\Repository\UserRepository;
@@ -11,6 +14,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -196,5 +200,62 @@ class UserController extends AbstractController
     public function apiIndex(UserRepository $userRepository)
     {
         return $this->json($userRepository->findAll(), 200, context: ['groups' => 'user']);
+    }
+
+    #[Route('/api/user/{id}', name: 'api_user_id', methods: ['GET'])]
+    public function apiId(User $user)
+    {
+        return $this->json($user, context: ['groups' => 'user']);
+    }
+
+    #[Route('/api/user/', name: 'api_user_id', methods: ['POST'])]
+    public function apiEdit(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $userPasswordHasher)
+    {
+        try {
+        $requestData = json_decode($request->getContent(), true);
+        // var_dump($requestData);
+
+        $user = new User();
+
+        $datePost = $requestData['birth'];
+        $datePost = date_parse_from_format('j/n/Y', $datePost);
+        $date = new DateTime();
+        $date->setDate($datePost['year'], $datePost['month'], $datePost['day']);
+
+        
+        $user->setEmail($requestData['email']);
+        $user->setPassword($requestData['password']);
+        $hashedPassword = $userPasswordHasher->hashPassword(
+            $user,
+            $requestData['password']
+        );
+        $user->setPassword($hashedPassword);
+        $user->setPseudo($requestData['pseudo']);
+        $user->setFirstName($requestData['firstName']);
+        $user->setLastName($requestData['lastName']);
+        $user->setRoles(['ROLE_USER']);
+        $user->setBirthDate($date);
+        $user->setPhoneNumber($requestData['phoneNumber']);
+        $user->setAvatar($requestData['avatar']);
+        $user->setGender($requestData['gender']);
+    
+        $addressData = $requestData['adresses'][0];
+        $adress = new Adress();
+        $adress->setCity($addressData['city']);
+        $adress->setZipCode($addressData['zipCode']);
+        $adress->setStreet($addressData['street']);
+        $adress->setCountry($addressData['country']);
+
+        $entityManager->persist($user);
+        $entityManager->persist($adress);
+        $entityManager->flush();
+    
+        return new JsonResponse($user . ' : 201 Created', Response::HTTP_CREATED, [], true);
+        } catch (Exception $e) {
+        return new JsonResponse([
+            'message' => $e->getMessage()],
+            Response::HTTP_BAD_REQUEST
+        );
+        }
     }
 }
