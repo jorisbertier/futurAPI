@@ -188,75 +188,116 @@ class NftController extends AbstractController
 
     /////// API /////////
 
-    #[Route('/api/nft', 'api_nft', methods: ['GET'])]
+    #[Route('/api/nft', 'api_nft_index', methods: ['GET'])]
     public function apiNft(NftRepository $nftRepository)
     {
-        $nfts = $nftRepository->findAll();
-        
-        return $this->json($nfts, 200, context: ['groups' => 'nft', 'category', 'collection']);
+        return $this->json($nftRepository->findAll(), 200, context: ['groups' => 'nft', 'category', 'collection']);
     }
 
-    #[Route('/api/nft/{id}', 'api_nft_id')]
+    #[Route('/api/nft/{id}', 'api_nft_id', methods: ['GET'])]
     public function apiNftId(Nft $nft)
     {
         return $this->json($nft, context: ['groups' => 'nft']);
     }
 
-    #[Route('/api/category', 'api_category')]
-    public function apiCategory(CategoryRepository $categoryRepository)
-    {
-        $categories = $categoryRepository->findAll();
-        return $this->json($categories, context: ['groups' => 'category']);
-    }
-
-
-    #[Route('/api/new', 'api_nft_new', methods: ['POST'])]
+    #[Route('/api/nft', 'api_nft_new', methods: ['POST'])]
     public function apiNftNew(EntityManagerInterface $entityManager, Request $request, SluggerInterface $slugger)
     {
-    
-    $requestData = json_decode($request->getContent(), true);
-    
-    $nft = new Nft();
+        try {
+            $requestData = json_decode($request->getContent(), true);
+            
+            $nft = new Nft();
 
-    $timezoneParis = new DateTimeZone('Europe/Paris');
-    $dateTimeParis = new DateTime('now', $timezoneParis);
-
-
-    $nft->setDateCreation($dateTimeParis);
-    $nft->setDescription($requestData['description']);
-    $nft->setTitle($requestData['title']);
-    $nft->setPrice($requestData['price']);
-    $nft->setFilePath($requestData['filePath']);
-    $nft->setAlt($requestData['alt']);
-
-    $category = new Category();
-    $category->setLabel($requestData['category']);
-
-    $collection = new CollectionNft();
-    $collection->setLabel($requestData['collection']);
-
-    $entityManager->persist($nft);
-    $entityManager->persist($category);
-    $entityManager->persist($collection);
-    $entityManager->flush();
-
-    return new JsonResponse($nft, Response::HTTP_CREATED, [], true);
+            $timezoneParis = new DateTimeZone('Europe/Paris');
+            $dateTimeParis = new DateTime('now', $timezoneParis);
+        
+        
+            $nft->setDateCreation($dateTimeParis);
+            $nft->setDescription($requestData['description']);
+            $nft->setTitle($requestData['title']);
+            $nft->setPrice($requestData['price']);
+            $nft->setFilePath($requestData['filePath']);
+            $nft->setAlt($requestData['alt']);
+        
+            $category = new Category();
+            $category->setLabel($requestData['category']);
+        
+            $collection = new CollectionNft();
+            $collection->setLabel($requestData['collection']);
+        
+            $entityManager->persist($nft);
+            $entityManager->persist($category);
+            $entityManager->persist($collection);
+            $entityManager->flush();
+        
+            return new JsonResponse($nft . ' : 201 Created', Response::HTTP_CREATED, [], true);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
     }
 
-    #[Route('/api/naruto', 'api_nft_naruto')]
+    #[Route('/api/nft/{id}', name: 'api_nft_edit', methods: ['PUT'])]
+    public function apiNftEdit(Nft $nft, EntityManagerInterface $entityManager, Request $request): JsonResponse
+    {
+        try {
+            $requestData = json_decode($request->getContent(), true);
+
+            if (isset($requestData['description'])) {
+                $nft->setDescription($requestData['description']);
+            }
+            if (isset($requestData['title'])) {
+                $nft->setTitle($requestData['title']);
+            }
+            if (isset($requestData['price'])) {
+                $nft->setPrice($requestData['price']);
+            }
+            if (isset($requestData['filePath'])) {
+                $nft->setFilePath($requestData['filePath']);
+            }
+            if (isset($requestData['alt'])) {
+                $nft->setAlt($requestData['alt']);
+            }
+            if (isset($requestData['category'])) {
+                $category = new Category();
+                $category->setLabel($requestData['category']);
+            }
+            if (isset($requestData['collection'])) {
+                $collection = new CollectionNft();
+                $collection->setLabel($requestData['collection']);
+            }
+            $entityManager->flush();
+
+        return $this->json(['message' => 'NFT updated successfully'], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return new JsonResponse(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    
+    #[Route('/api/delete/{id}', name: 'api_nft_delete', methods: ['DELETE'])]
+    public function apiDeleteNft(Nft $nft, EntityManagerInterface $entityManager): JsonResponse {
+        $entityManager->remove($nft);
+        $entityManager->flush();
+        return $this->json(['message' => 'NFT delete successfull'], Response::HTTP_NO_CONTENT);
+    }
+
+
+    #[Route('/api/naruto', 'api_nft_naruto', methods: ['GET'])]
     public function apiNarutoNft(NftRepository $nftRepository)
     {
         $nfts = $nftRepository->findLastSixNarutoNft();
         return $this->json($nfts, context: ['groups' => 'nft']);
     }
 
-    #[Route('/api/delete/{id}', name: 'api_nft_delete', methods: ['DELETE'])]
-    public function apiDeleteNft(Nft $nft, EntityManagerInterface $entityManager): JsonResponse {
-        $entityManager->remove($nft);
-        $entityManager->flush();
-        return $this->json("nft deleated", 204);
-    }
     
+    // #[Route('/api/category', 'api_category')]
+    // public function apiCategory(CategoryRepository $categoryRepository)
+    // {
+    //     $categories = $categoryRepository->findAll();
+    //     return $this->json($categories, context: ['groups' => 'category']);
+    // }
 }
 
 
