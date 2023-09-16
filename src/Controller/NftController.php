@@ -15,6 +15,7 @@ use App\Repository\NftRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Normalizer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,6 +26,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[Route('/nft')]
 class NftController extends AbstractController
@@ -162,7 +164,6 @@ class NftController extends AbstractController
                 } catch (FileException $e){
                 }
             }
-
             $entityManager->flush();
 
             return $this->redirectToRoute('app_nft_index', [], Response::HTTP_SEE_OTHER);
@@ -185,15 +186,16 @@ class NftController extends AbstractController
         return $this->redirectToRoute('app_nft_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/api/nft', 'api_nft')]
+    /////// API /////////
+
+    #[Route('/api/nft', 'api_nft', methods: ['GET'])]
     public function apiNft(NftRepository $nftRepository)
     {
         $nfts = $nftRepository->findAll();
         
-        header('Access-Control-Allow-Origin: *');
-        return $this->json($nfts, context: ['groups' => 'nft']);
+        return $this->json($nfts, 200, context: ['groups' => 'nft', 'category', 'collection']);
     }
-    
+
     #[Route('/api/nft/{id}', 'api_nft_id')]
     public function apiNftId(Nft $nft)
     {
@@ -208,7 +210,7 @@ class NftController extends AbstractController
     }
 
 
-    #[Route('/api/new', 'api_nft_new',  methods: ['POST'])]
+    #[Route('/api/new', 'api_nft_new', methods: ['POST'])]
     public function apiNftNew(EntityManagerInterface $entityManager, Request $request, SluggerInterface $slugger)
     {
     
@@ -245,11 +247,10 @@ class NftController extends AbstractController
     public function apiNarutoNft(NftRepository $nftRepository)
     {
         $nfts = $nftRepository->findLastSixNarutoNft();
-        
         return $this->json($nfts, context: ['groups' => 'nft']);
     }
 
-    #[Route('/api/delete/{id}', name: 'api_nft_delete', methods: 'DELETE')]
+    #[Route('/api/delete/{id}', name: 'api_nft_delete', methods: ['DELETE'])]
     public function apiDeleteNft(Nft $nft, EntityManagerInterface $entityManager): JsonResponse {
         $entityManager->remove($nft);
         $entityManager->flush();

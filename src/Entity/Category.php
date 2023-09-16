@@ -14,13 +14,13 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['category'])]
+    #[Groups(['nft'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['nft'])]
     private ?string $label = null;
 
-    #[Groups(['category'])]
     #[ORM\ManyToMany(targetEntity: Nft::class, mappedBy: 'categories')]
     private Collection $nfts;
 

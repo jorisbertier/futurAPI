@@ -19,32 +19,33 @@ class Nft
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['nft', 'category'])]
+    #[Groups(['nft'])]
     private ?\DateTimeInterface $dateCreation = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateDrop = null;
 
     #[ORM\Column]
-    #[Groups(['nft', 'category'])]
+    #[Groups(['nft'])]
     private ?float $price = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['nft', 'category'])]
+    #[Groups(['nft'])]
     private ?string $title = null;
 
-    #[Groups(['nft', 'category'])]
+    #[Groups(['nft'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['nft', 'category'])]
+    #[Groups(['nft'])]
     private ?string $filePath = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['nft', 'category'])]
+    #[Groups(['nft'])]
     private ?string $alt = null;
 
+    #[Groups(['nft'])]
     #[ORM\ManyToOne(inversedBy: 'nfts')]
     private ?User $user = null;
 
@@ -52,11 +53,11 @@ class Nft
     private Collection $transactions;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'nfts')]
-    #[Groups(['nft', 'category'])]
+    #[Groups(['nft'])]
     private Collection $categories;
 
     #[ORM\ManyToOne(inversedBy: 'nfts')]
-    #[Groups(['nft', 'category'])]
+    #[Groups(['nft'])]
     private ?CollectionNft $collection = null;
 
     #[ORM\ManyToOne(inversedBy: 'nfts')]

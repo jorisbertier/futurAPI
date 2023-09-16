@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CollectionNftRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CollectionNftRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CollectionNftRepository::class)]
 class CollectionNft
@@ -13,9 +14,11 @@ class CollectionNft
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['nft'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['nft'])]
     private ?string $label = null;
 
     #[ORM\OneToMany(mappedBy: 'collection', targetEntity: Nft::class)]
