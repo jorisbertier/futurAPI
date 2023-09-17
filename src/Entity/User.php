@@ -33,6 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Groups(['user'])]
     private ?string $password = null;
 
     #[Groups(['nft', 'user'])]

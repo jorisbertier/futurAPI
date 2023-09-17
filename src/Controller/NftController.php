@@ -37,7 +37,6 @@ class NftController extends AbstractController
 
     }
 
-
     #[Route('/', name: 'app_nft_index', methods: ['GET'])]
     public function index(NftRepository $nftRepository, Request $request, EthRepository $ethRepository): Response
     {
@@ -207,6 +206,7 @@ class NftController extends AbstractController
             $requestData = json_decode($request->getContent(), true);
             
             $nft = new Nft();
+            
 
             $timezoneParis = new DateTimeZone('Europe/Paris');
             $dateTimeParis = new DateTime('now', $timezoneParis);
@@ -221,6 +221,14 @@ class NftController extends AbstractController
         
             $category = new Category();
             $category->setLabel($requestData['category']);
+            $category = $requestData['category'] ?? null;
+            if ($category !== null) {
+                // La clé 'category' existe, vous pouvez l'utiliser
+                // ...
+            } else {
+                // La clé 'category' n'est pas définie, gérez cette situation
+                return new JsonResponse(['message' => 'La clé "category" n\'est pas définie'], Response::HTTP_BAD_REQUEST);
+            }
         
             $collection = new CollectionNft();
             $collection->setLabel($requestData['collection']);
