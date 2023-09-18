@@ -45,7 +45,7 @@ class Nft
     #[Groups(['nft'])]
     private ?string $alt = null;
 
-    #[Groups(['nft'])]
+    #[Groups(['nft']),]
     #[ORM\ManyToOne(inversedBy: 'nfts')]
     private ?User $user = null;
 

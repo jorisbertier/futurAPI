@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use DateTime;
+use Normalizer;
 use DateTimeZone;
 use App\Entity\Nft;
+use App\Entity\User;
 use App\Form\NftType;
-use App\Form\NftSearchType;
 use App\Entity\Category;
+use App\Form\NftSearchType;
 use App\Entity\CollectionNft;
 use Doctrine\ORM\EntityManager;
 use App\Repository\EthRepository;
@@ -15,7 +17,6 @@ use App\Repository\NftRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Normalizer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,9 +25,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 #[Route('/nft')]
 class NftController extends AbstractController
@@ -218,23 +219,29 @@ class NftController extends AbstractController
             $nft->setPrice($requestData['price']);
             $nft->setFilePath($requestData['filePath']);
             $nft->setAlt($requestData['alt']);
+            
         
             $category = new Category();
             $category->setLabel($requestData['category']);
-            $category = $requestData['category'] ?? null;
-            if ($category !== null) {
-                // La clé 'category' existe, vous pouvez l'utiliser
-                // ...
-            } else {
-                // La clé 'category' n'est pas définie, gérez cette situation
-                return new JsonResponse(['message' => 'La clé "category" n\'est pas définie'], Response::HTTP_BAD_REQUEST);
-            }
+            // $category = $requestData['category'] ?? null;
+            // if ($category !== null) {
+            //     // La clé 'category' existe, vous pouvez l'utiliser
+            //     // ...
+            // } else {
+            //     // La clé 'category' n'est pas définie, gérez cette situation
+            //     return new JsonResponse(['message' => 'La clé "category" n\'est pas définie'], Response::HTTP_BAD_REQUEST);
+            // }
         
             $collection = new CollectionNft();
             $collection->setLabel($requestData['collection']);
+
+            // $user = new User();
+            // $user->setPseudo($requestData['user']);
         
+            // $nft->setUser($user);
             $nft->addCategory($category);
             $nft->setCollection($collection);
+            // $entityManager->persist($user);
             $entityManager->persist($nft);
             $entityManager->persist($category);
             $entityManager->persist($collection);
