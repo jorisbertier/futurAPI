@@ -54,6 +54,8 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/api/nft, roles: IS_AUTHENTICATED_FULLY, method:[PATCH]}
 
         # - { path: ^/adress, roles: ROLE_ADMIN}
         # - { path: ^/category, roles: ROLE_ADMIN}
@@ -63,6 +65,8 @@ security:
         # - { path: ^/panel/admin, roles: ROLE_ADMIN}
         # - { path: ^/transaction, roles: ROLE_ADMIN}
         # - { path: ^/user, roles: ROLE_ADMIN}
+        # - { path: ^/api/nft, roles: IS_AUTHENTICATED_FULLY, method:[POST, PUT, DELETE]}
+        # - { path: ^/api/users, roles: PUBLIC_ACCESS}
 
 when@test:
     security:

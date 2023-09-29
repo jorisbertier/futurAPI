@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManager;
 use App\Repository\EthRepository;
 use App\Repository\NftRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -201,13 +202,25 @@ class NftController extends AbstractController
     }
 
     #[Route('/api/nft', 'api_nft_new', methods: ['POST'])]
-    public function apiNftNew(EntityManagerInterface $entityManager, Request $request, SluggerInterface $slugger)
+    public function apiNftNew(EntityManagerInterface $entityManager, Request $request, SluggerInterface $slugger, UserRepository $userRepository)
     {
+        // dd($request->files->get("filePath"));
+        
+        
+        // dd($token);
+        
         try {
             $requestData = json_decode($request->getContent(), true);
             
+            
             $nft = new Nft();
             
+            $token = $request->headers->get('Authorization');
+            $tokenParts = explode(".", $token);
+            $tokenHeader = base64_decode($tokenParts[0]);
+            $tokenPayload = base64_decode($tokenParts[1]);
+            $jwtPayload = json_decode($tokenPayload);
+                
 
             $timezoneParis = new DateTimeZone('Europe/Paris');
             $dateTimeParis = new DateTime('now', $timezoneParis);
@@ -217,21 +230,18 @@ class NftController extends AbstractController
             $nft->setDescription($requestData['description']);
             $nft->setTitle($requestData['title']);
             $nft->setPrice($requestData['price']);
-            $nft->setFilePath($requestData['filePath']);
             $nft->setAlt($requestData['alt']);
+            $user = $userRepository->findOneBy(['email' => $jwtPayload->username]);
+            $nft->setUser($user);
             
-        
+            // $base64Image = $requestData['filePath']; // La base64 est dans le champ "filePath"
+            // $fileName = $uploadService->uploadFile($base64Image);
+            // $nft->setFilePath($fileName);
+
+            $nft->setFilePath($requestData['filePath']);
             $category = new Category();
             $category->setLabel($requestData['category']);
-            // $category = $requestData['category'] ?? null;
-            // if ($category !== null) {
-            //     // La clé 'category' existe, vous pouvez l'utiliser
-            //     // ...
-            // } else {
-            //     // La clé 'category' n'est pas définie, gérez cette situation
-            //     return new JsonResponse(['message' => 'La clé "category" n\'est pas définie'], Response::HTTP_BAD_REQUEST);
-            // }
-        
+
             $collection = new CollectionNft();
             $collection->setLabel($requestData['collection']);
 

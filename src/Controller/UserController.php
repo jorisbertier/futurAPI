@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -202,13 +203,32 @@ class UserController extends AbstractController
         return $this->json($userRepository->findAll(), 200, context: ['groups' => 'user']);
     }
 
+    // #[Route('/api/user/info', name: 'api_user_info', methods: ['GET'])]
+    //     public function getUserConnected(UserInterface $user)
+    //     {
+    //         // Renvoie les informations de l'utilisateur actuellement authentifié
+    //         return $this->json($user, context: ['groups' => ['user']]);
+    //     }
+
+    #[Route('/api/user/info', name: 'api_user_info', methods: ['GET'])]
+    public function getUserInfo()
+    {
+        $user = $this->getUser(); // Récupérez l'utilisateur actuellement authentifié
+
+        if (!$user) {
+            throw $this->createNotFoundException('Utilisateur non trouvé');
+        }
+
+        return $this->json($user, 200, [], ['groups' => ['user']]);
+    }
+
     #[Route('/api/user/{id}', name: 'api_user_id', methods: ['GET'])]
     public function apiId(User $user)
     {
         return $this->json($user, context: ['groups' => 'user']);
     }
 
-    #[Route('/api/user/', name: 'api_user_id', methods: ['POST'])]
+    #[Route('/api/user/', name: 'api_user_new', methods: ['POST'])]
     public function apiNew(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $userPasswordHasher)
     {
         try {
@@ -289,6 +309,7 @@ class UserController extends AbstractController
                 $date = new DateTime();
                 $date->setDate($datePost['year'], $datePost['month'], $datePost['day']);
                 $user->setBirthDate($date);
+                
             }
             if (isset($requestData['phoneNumber'])) {
                 $user->setPhoneNumber($requestData['phoneNumber']);
@@ -304,7 +325,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return new JsonResponse(['message' => 'User updated successfully'], Response::HTTP_OK);
+            return new JsonResponse(['message' => 'User updated successfully'], Response::HTTP_CREATED);
         } catch (Exception $e) {
             return new JsonResponse(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
