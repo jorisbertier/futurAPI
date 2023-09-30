@@ -135,7 +135,6 @@ class EthController extends AbstractController
     public function apiEthLastPriceJ1(EthRepository $ethRepository)
     {
         $ethLPJ1 = $ethRepository->findPreviousEthValue();
-        dd($ethLPJ1);
 
         if ($ethLPJ1 !== null) {
             return $this->json($ethLPJ1, context: ['groups' => 'eth']);
