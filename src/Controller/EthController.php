@@ -127,8 +127,21 @@ class EthController extends AbstractController
     public function apiEthLastPrice(EthRepository $ethRepository)
     {
         $eth = $ethRepository->findActualPrice();
-        
+
         return $this->json($eth, context: ['groups' => 'eth']);
+    }
+
+    #[Route('/api/eth/two', 'api_eth_two',  methods: ['GET'])]
+    public function apiEthLastPriceJ1(EthRepository $ethRepository)
+    {
+        $ethLPJ1 = $ethRepository->findPreviousEthValue();
+        dd($ethLPJ1);
+
+        if ($ethLPJ1 !== null) {
+            return $this->json($ethLPJ1, context: ['groups' => 'eth']);
+        }
+
+        return $this->json(['error' => 'Insufficient data for J-1 calculation'], Response::HTTP_BAD_REQUEST);
     }
 
 

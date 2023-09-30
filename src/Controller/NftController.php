@@ -313,13 +313,10 @@ class NftController extends AbstractController
     #[Route('/api/nft/user/{userId}', name: 'api_nft_user_id', methods: ['GET'])]
     public function apiNftForUser(NftRepository $nftRepository, $userId): JsonResponse
     {
-        // Utilisez $userId pour récupérer les NFTs de l'utilisateur
         $nfts = $nftRepository->findBy(['user' => $userId]);
 
-        // Vous pouvez personnaliser la réponse JSON selon vos besoins
         return $this->json($nfts, context: ['groups' => 'nft']);
     }
-
 
 
     #[Route('/api/naruto', 'api_nft_naruto', methods: ['GET'])]

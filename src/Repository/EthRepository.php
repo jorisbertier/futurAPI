@@ -43,6 +43,14 @@ class EthRepository extends ServiceEntityRepository
         ->getOneOrNullResult();
     }
 
+    public function findPreviousEthValue() {
+        return $this->createQueryBuilder('e')
+        ->orderBy('e.updateDate', 'desc')
+        ->setMaxResults(2)
+        ->getQuery()
+        ->getResult()[1] ?? null;;
+    }
+
 //    /**
 //     * @return Eth[] Returns an array of Eth objects
 //     */
