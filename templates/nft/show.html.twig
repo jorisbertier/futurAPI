@@ -35,7 +35,7 @@
                 <th>FilePath</th>
                     <td>
                     {% if nft.filePath %}
-                        <img src="{{ asset('upload/' ~ nft.filePath) }}" class="imgNft" alt="Image">
+                        <img src="{{nft.filePath}}" class="imgNft" alt="Image">
                     {% else %}
                         <p>Aucune image disponible.</p>
                     {% endif %}

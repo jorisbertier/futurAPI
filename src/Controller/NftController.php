@@ -326,6 +326,13 @@ class NftController extends AbstractController
         return $this->json($nfts, context: ['groups' => 'nft']);
     }
 
+    #[Route('/api/shadow', 'api_nft_shadow', methods: ['GET'])]
+    public function apiShadowNft(NftRepository $nftRepository)
+    {
+        $nfts = $nftRepository->findLastSixShadowNft();
+        return $this->json($nfts, context: ['groups' => 'nft']);
+    }
+
     
     // #[Route('/api/category', 'api_category')]
     // public function apiCategory(CategoryRepository $categoryRepository)
