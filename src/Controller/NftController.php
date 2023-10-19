@@ -234,6 +234,13 @@ class NftController extends AbstractController
             $user = $userRepository->findOneBy(['email' => $jwtPayload->username]);
             $nft->setUser($user);
             
+            // $errors = $validator->validate($price, new Assert\GreaterThan(0));
+
+            // if (count($errors) > 0) {
+            // // Gérer l'erreur : Le prix est inférieur ou égal à 0.
+            // // Vous pouvez renvoyer une réponse d'erreur appropriée ici.
+            // }
+
             // $base64Image = $requestData['filePath']; // La base64 est dans le champ "filePath"
             // $fileName = $uploadService->uploadFile($base64Image);
             // $nft->setFilePath($fileName);

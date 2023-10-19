@@ -237,10 +237,7 @@ class UserController extends AbstractController
         $user = new User();
 
         $datePost = $requestData['birth'];
-        $datePost = date_parse_from_format('j/n/Y', $datePost);
-        $date = new DateTime();
-        $date->setDate($datePost['year'], $datePost['month'], $datePost['day']);
-
+        $date = new DateTime($datePost);
         
         $user->setEmail($requestData['email']);
         $user->setPassword($requestData['password']);
