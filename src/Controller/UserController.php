@@ -238,6 +238,7 @@ class UserController extends AbstractController
 
         $datePost = $requestData['birth'];
         $date = new DateTime($datePost);
+
         
         $user->setEmail($requestData['email']);
         $user->setPassword($requestData['password']);
@@ -263,6 +264,10 @@ class UserController extends AbstractController
         $adress->setCountry($addressData['country']);
 
         $entityManager->persist($user);
+        
+        $entityManager->flush();
+
+        $adress->setUser($user);
         $entityManager->persist($adress);
         $entityManager->flush();
     
