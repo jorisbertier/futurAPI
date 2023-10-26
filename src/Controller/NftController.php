@@ -204,11 +204,7 @@ class NftController extends AbstractController
     #[Route('/api/nft', 'api_nft_new', methods: ['POST'])]
     public function apiNftNew(EntityManagerInterface $entityManager, Request $request, SluggerInterface $slugger, UserRepository $userRepository)
     {
-        // dd($request->files->get("filePath"));
-        
-        
-        // dd($token);
-        
+
         try {
             $requestData = json_decode($request->getContent(), true);
             

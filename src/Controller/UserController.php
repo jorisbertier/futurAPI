@@ -335,6 +335,10 @@ class UserController extends AbstractController
 
     #[Route('/api/delete/{id}', name: 'api_user_delete', methods: ['DELETE'])]
     public function apiDeleteUser(User $user, EntityManagerInterface $entityManager): JsonResponse {
+        $addresses = $user->getAdresses();
+        foreach ($addresses as $address) {
+            $entityManager->remove($address);
+        }
         $entityManager->remove($user);
         $entityManager->flush();
         return $this->json(['message' => 'User delete successfull'], Response::HTTP_NO_CONTENT);
