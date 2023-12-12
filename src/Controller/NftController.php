@@ -202,7 +202,7 @@ class NftController extends AbstractController
     }
 
     #[Route('/api/nft', 'api_nft_new', methods: ['POST'])]
-    public function apiNftNew(EntityManagerInterface $entityManager, Request $request, SluggerInterface $slugger, UserRepository $userRepository)
+    public function apiNftNew(EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository)
     {
 
         try {
@@ -221,7 +221,6 @@ class NftController extends AbstractController
             $timezoneParis = new DateTimeZone('Europe/Paris');
             $dateTimeParis = new DateTime('now', $timezoneParis);
         
-        
             $nft->setDateCreation($dateTimeParis);
             $nft->setDescription($requestData['description']);
             $nft->setTitle($requestData['title']);
@@ -230,17 +229,6 @@ class NftController extends AbstractController
             $user = $userRepository->findOneBy(['email' => $jwtPayload->username]);
             $nft->setUser($user);
             
-            // $errors = $validator->validate($price, new Assert\GreaterThan(0));
-
-            // if (count($errors) > 0) {
-            // // Gérer l'erreur : Le prix est inférieur ou égal à 0.
-            // // Vous pouvez renvoyer une réponse d'erreur appropriée ici.
-            // }
-
-            // $base64Image = $requestData['filePath']; // La base64 est dans le champ "filePath"
-            // $fileName = $uploadService->uploadFile($base64Image);
-            // $nft->setFilePath($fileName);
-
             $nft->setFilePath($requestData['filePath']);
             $category = new Category();
             $category->setLabel($requestData['category']);
@@ -248,13 +236,8 @@ class NftController extends AbstractController
             $collection = new CollectionNft();
             $collection->setLabel($requestData['collection']);
 
-            // $user = new User();
-            // $user->setPseudo($requestData['user']);
-        
-            // $nft->setUser($user);
             $nft->addCategory($category);
             $nft->setCollection($collection);
-            // $entityManager->persist($user);
             $entityManager->persist($nft);
             $entityManager->persist($category);
             $entityManager->persist($collection);
