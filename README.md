@@ -7,9 +7,8 @@ It includes an **admin dashboard**, data visualization with **Chart.js**, and as
 
 ## ⚙️ Tech Stack
 
-- **Symfony** (recommended: version 6+)
-- **PHP 8.1+**
-- **API Platform** (optional) for REST API
+- **Symfony** (recommended: version 5.4)
+- **PHP 7+**
 - **PhpMyAdmin**
 - **Webpack Encore** for asset bundling
 - **Bootstrap 5** for the admin interface
@@ -74,7 +73,7 @@ Chart.js for advanced graphs
 ##  🛠 Admin Interface
 The admin panel is available at /admin (or your custom route). It allows:
 
-Managing users
+Managing users & datas
 
 Tracking NFT transactions
 
